@@ -1,0 +1,32 @@
+{
+	"git.autofetch": true,
+	"javascript.updateImportsOnFileMove.enabled": "always",
+	"eslint.validate": [
+		"javascript",
+		"javascriptreact",
+		"html",
+		"typescriptreact",
+		"typescript"
+	],
+	"eslint.workingDirectories": [
+		{
+			"mode": "auto"
+		}
+	],
+	"editor.bracketPairColorization.enabled": true,
+	"editor.detectIndentation": false,
+	"editor.insertSpaces": false,
+	"editor.inlineSuggest.enabled": true,
+	"[prisma]": {
+		"editor.defaultFormatter": "Prisma.prisma"
+	},
+	"editor.linkedEditing": true,
+	"explorer.confirmDelete": false,
+	"prettier.configPath": "prettier.config.mjs",
+	"git.confirmSync": false,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true,
+		"source.fixAll.tslint": true,
+		"source.fixAll.stylelint": true
+	},
+}
