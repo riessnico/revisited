@@ -1,20 +1,11 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import {
-	Card,
-	CardHeader,
-	CardTitle,
-	CardDescription,
-	CardContent,
-	CardFooter,
-} from '~/components/ui/card';
 
-import metamask from '~/assets/MetaMask_Fox.svg';
 import bg from '~/assets/pexels-michelangelo-buonarroti-8728382.jpg';
-import Link from 'next/link';
 import { Sun, Moon } from 'lucide-react';
 import { Button } from '~/components/ui/button';
 import { useTheme } from 'next-themes';
+import CardLogin from '~/components/composite/card-login';
 
 export default function Home() {
 	const { theme, setTheme } = useTheme();
@@ -28,23 +19,13 @@ export default function Home() {
 			</Head>
 			<Button
 				onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-				className="absolute right-2 top-2"
+				className="absolute right-2 top-2 z-10"
 			>
 				<Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
 				<Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
 			</Button>
-			<article className="flex flex-row">
+			<article className="flex">
 				<div className="relative h-screen w-full">
-					{/* <div className="z-1 absolute h-full w-full bg-gradient-to-t from-cyan-950 to-transparent"></div> */}
-					{/* <div className="absolute bottom-10 left-10 z-0">
-						<h1 className="text-5xl text-slate-300">Enter the multiverse</h1>
-						<p className="w-2/3 text-base text-slate-400">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda
-							aliquid recusandae libero atque velit dolorum illum deserunt
-							debitis laudantium quidem? Placeat, animi iure vero iste dolorem
-							perspiciatis minus mollitia. Ad.
-						</p>
-					</div> */}
 					<Image
 						src={bg}
 						alt="lau"
@@ -53,34 +34,10 @@ export default function Home() {
 						className="z-[-1]"
 						style={{}}
 					/>
+					<CardLogin className="absolute bottom-0 w-full flex-col md:hidden" />
 				</div>
-				<div className="flex h-screen w-full items-center justify-center bg-white dark:bg-slate-950">
-					<Card className="w-[350px] animate-enter-y shadow-lg">
-						<CardHeader className="pb-10">
-							<CardTitle>Get started</CardTitle>
-							<CardDescription>
-								Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-								repellat.
-							</CardDescription>
-						</CardHeader>
-						<CardContent className="flex flex-col items-center justify-center gap-3 pb-10">
-							<div>
-								<div className="w-200 h-[1px] bg-slate-200"></div>
-							</div>
-							<Link href="/home">
-								<div className="w-24 animate-gradient-x cursor-pointer rounded-full bg-gradient-to-r from-cyan-600 via-purple-400 to-orange-500 p-4 transition-all hover:scale-125 hover:animate-gradient-x-fast">
-									<Image
-										src={metamask as string}
-										alt="metamask icon"
-										className="h-16"
-									/>
-								</div>
-							</Link>
-						</CardContent>
-						<CardFooter className="justify-center">
-							<p className="text-xs">Built by nick :)</p>
-						</CardFooter>
-					</Card>
+				<div className="hidden h-screen w-full  items-center justify-center bg-white dark:bg-slate-950 md:flex">
+					<CardLogin />
 				</div>
 			</article>
 		</>

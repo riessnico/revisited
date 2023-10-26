@@ -15,12 +15,21 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Badge } from '~/components/ui/badge';
+import { useAccount } from 'wagmi';
+import { Button } from '~/components/ui/button';
 
 export type ContractController = { contract: string };
 
 const Page = () => {
+	const { address } = useAccount();
 	const { ref, inView } = useInView();
-	const [page, setPage] = useState(0);
+	const searchMutation = api.user.updateSearch.useMutation();
+	const { data: user, refetch } = api.user.getUser.useQuery(
+		{
+			wallet: address as string,
+		},
+		{ enabled: !!address },
+	);
 
 	const [contractController, setContractController] =
 		useState<ContractController>({
@@ -40,27 +49,37 @@ const Page = () => {
 		if (inView) void fetchNextPage();
 	}, [inView]);
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<ContractController>();
+	const { register, handleSubmit } = useForm<ContractController>();
 
 	const onSubmit = (data: ContractController) => {
 		setContractController({ contract: data.contract });
+		searchMutation.mutate({ wallet: address as string });
+		void refetch();
 	};
 
 	return (
-		<div className="px-8 pt-12 sm:px-12">
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<Input {...register('contract')} />
-				<input type="submit" />
+		<div className="h-screen bg-white px-8 pt-12 dark:bg-slate-950 sm:px-12">
+			{user?.name && address ? (
+				<div className="pb-6">
+					<h1 className="tracking text-4xl tracking-tight">
+						Hello, {user.name}.
+					</h1>
+					<small>
+						You have a record of {user.searches ?? '0'} searches with us 💙
+					</small>
+				</div>
+			) : (
+				<p className="pb-6">Please register yourself first!</p>
+			)}
+			<form className="flex gap-2 pb-8" onSubmit={handleSubmit(onSubmit)}>
+				<Input placeholder="Search for an nft!👏" {...register('contract')} />
+				<Button>Submit</Button>
 			</form>
-			<div className="grid-cols-fluid grid gap-8">
+			<div className="grid grid-cols-fluid gap-6">
 				{data?.pages.map(({ nfts, next }) => (
 					<React.Fragment key={next}>
 						{nfts.map((nft) => (
-							<Card key={nft.identifier} className="animate-enter-y">
+							<Card key={nft.identifier} className="animate-enter-y shadow-lg">
 								<CardHeader className="pb-10">
 									<CardTitle>{nft.name}</CardTitle>
 									<CardDescription>{nft.description}</CardDescription>
